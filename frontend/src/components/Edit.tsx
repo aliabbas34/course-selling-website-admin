@@ -5,8 +5,8 @@ import { hasJwtExpired, isAuthenticated } from "../lib/auth";
 import CreateUpdateCard from "./CreateUpdateCard";
 function Edit(){
 
-    let courseId=useParams();
-    courseId=courseId.courseId;
+    let courseId=useParams().courseId;
+    //courseId=courseId.courseId;
     const [course, setCourse] = useState(null);
     const navigate=useNavigate();
 
@@ -19,7 +19,7 @@ function Edit(){
         });
         alert(promise.data.message);
         navigate('/courses/');
-        }catch(e){
+        }catch(e:any){
             console.log(e);
             console.log(e.response.data.message);
         }
@@ -35,7 +35,7 @@ function Edit(){
             }
         });
         setCourse(promise.data.course);
-        }catch (e){
+        }catch (e:any){
             console.log(e);
             console.log(e.response.data.message);
         }

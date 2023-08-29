@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,7 +9,7 @@ import Chip from '@mui/material/Chip';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import axios from "axios";
 import NavBar from "./NavBar";
-import { hasJwtExpired, isAuthenticated } from "../lib/auth";
+import { isAuthenticated, hasJwtExpired } from "../lib/auth";
 import { useNavigate } from "react-router-dom";
 
 function ShowCourses() {
@@ -46,7 +46,7 @@ function ShowCourses() {
     </div>
 }
 
-function Course({course,courses,setCourses}) {
+function Course({course,courses,setCourses}:{course:any,courses:never[],setCourses:Function}) {
     const navigate=useNavigate();
     return (
         <Card sx={{ maxWidth: 345 , margin:"10px"}}>
@@ -96,9 +96,9 @@ function Course({course,courses,setCourses}) {
                             }
                         });
                         alert(promise.data.message);
-                        let updatedCourseList=courses.filter(e=>e._id!=course._id);
+                        let updatedCourseList=courses.filter((e:any)=>e._id!=course._id);
                         setCourses(updatedCourseList);
-                        }catch(e){
+                        }catch(e:any){
                             console.log(e);
                         }
                     //navigate('/edit-course/'+course._id)

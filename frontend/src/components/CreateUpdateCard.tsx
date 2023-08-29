@@ -5,8 +5,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
+type typeOfValue={
+    title:string,
+    description:string,
+    imageLink:string,
+    price:number,
+    published:boolean
+}
 
-function CreateUpdateCard(props){// cardTitle, values, setValues, action
+
+function CreateUpdateCard(props:{cardTitle:string,values:typeOfValue,setValues:Function,action:string,click:()=>Promise<void>}){// cardTitle, values, setValues, action, click
     const navigate=useNavigate();
     return(
         <Card 
@@ -79,7 +87,7 @@ function CreateUpdateCard(props){// cardTitle, values, setValues, action
                         variant="outlined" 
                         type="number"
                         defaultValue={props.values.price}
-                        onChange={e => props.setValues({...props.values,price:e.target.value})} 
+                        onChange={e => props.setValues({...props.values,price:Number(e.target.value)})} 
                         sx={{
                             '& label.Mui-focused': {
                                 color: "#ff9800",
@@ -104,6 +112,7 @@ function CreateUpdateCard(props){// cardTitle, values, setValues, action
                         }}
                         checked={props.values.published}
                         onChange={e => {
+                            e.preventDefault();
                             let pblish=props.values.published;
                             props.setValues({...props.values,published:!pblish});
                         }}

@@ -33,7 +33,7 @@ function CreateCourse() {
             alert(promise.data.message);
             console.log(promise.data.courseId);
             navigate('/courses');
-        }catch (e){
+        }catch (e:any){
             console.log(e);
             console.log(e.response.data.message);
         }

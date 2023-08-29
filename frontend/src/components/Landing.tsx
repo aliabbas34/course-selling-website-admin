@@ -12,7 +12,7 @@ import NavBar from "./NavBar";
 
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';//snackbar code
-import MuiAlert from '@mui/material/Alert';//snackbar code
+import MuiAlert, { AlertProps } from '@mui/material/Alert';//snackbar code
 
 import { useRecoilValue, useSetRecoilState } from "recoil";//snackbar code
 import { messageState } from "../store/atoms/message";//snackbar code
@@ -29,22 +29,28 @@ function Landing() {
     const login=useRecoilValue(loginState);//snackbar code
     const register=useRecoilValue(registerState);
 
-    const Alert = React.forwardRef(function Alert(props, ref) {//snackbar code
+    // const Alert = React.forwardRef(function Alert(props, ref) {//snackbar code
+    //     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    // });
+    const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+        props,
+        ref,
+      ) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
+      });
 
-      const handleCloseLogin = (event, reason) => {//snackbar code
+      const handleCloseLogin = ( event?: React.SyntheticEvent | Event, reason?: string) => {//snackbar code
         if (reason === 'clickaway') {
           return;
         }
-        setMessage({login:false});
+        setMessage({login:false,register:register,delete:false});
       };
 
-      const handleCloseRegister = (event, reason) => {//snackbar code
+      const handleCloseRegister = ( event?: React.SyntheticEvent | Event, reason?: string) => {//snackbar code
         if (reason === 'clickaway') {
           return;
         }
-        setMessage({Register:false});
+        setMessage({login:login,register:false,delete:false});
       };
 
     return <div 

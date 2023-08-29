@@ -1,44 +1,39 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Logo from "./Logo";
-import axios from "axios";
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { messageState } from "../store/atoms/message";
 import { useSetRecoilState } from "recoil";
-/// File is incomplete. You need to add input boxes to take input for users to login.
-function Login() {
-
+import Logo from "./Logo";
+/// File is incomplete. You need to add input boxes to take input for users to register.
+function Register() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    //const [open, setOpen] = React.useState(false);
+    const setRegister=useSetRecoilState(messageState);
 
     const navigate=useNavigate();
 
-    const setLogin=useSetRecoilState(messageState);
-    
     const handleClick=async ()=>{
         try{
-        const promise= await axios.post('http://localhost:3000/admin/login',{
+        const promise=await axios.post('http://localhost:3000/admin/signup',{
             username:email,
             password:password
         });
-        let data=promise.data;
-        console.log(data.message);
-        localStorage.setItem("token",data.token);
+        let token=promise.data.token;
+        localStorage.setItem("token",token);
         navigate('/');
-        setLogin({login:true});
-        }catch (e){
-            console.log(e);
+        setRegister({login:false,register:true,delete:false});
+        } catch (e:any){
             alert(e.response.data.message);
         }
+        
     }
 
-    return (
-    <div 
+    return <div 
     style={{
         height:"100vh", 
         width:"100vw", 
@@ -49,24 +44,26 @@ function Login() {
         }}>
         
         <div style={{display:"flex", justifyContent:"center"}}>
-        
+
         <Card sx={{minWidth:"400px", minHeight:"350px", display:"flex",flexDirection:"column",justifyContent:"center"}}>
+
         <div 
         style={{
             display:"flex",
             justifyContent:"center",
-            margin:"30px",
+            marginTop:"30px",
             marginBottom:"50px"
             }}>
         <Logo></Logo>
         </div>
+
             <TextField 
                 id="outlined-basic" 
                 label="email" 
                 placeholder="user@mail.com" 
                 variant="outlined" 
                 type="email" 
-                onChange={e =>setEmail(e.target.value)} 
+                onChange={e => setEmail(e.target.value)} 
                 sx={{
                     '& label.Mui-focused': {
                         color: "#f57c00",
@@ -111,19 +108,19 @@ function Login() {
                 marginTop:"10px",
                 marginRight:"20px",
                 marginLeft:"20px",
-                marginBottom:"7px"
+                marginBottom:"7px",
             }}
             variant="contained"
             onClick={handleClick}
-            
             >
-                login
+                Create Account
             </Button>
-            <div style={{display:"flex",justifyContent:"start", marginTop:"30px", marginLeft:"30px",marginBottom:"20px"}}> <Typography variant="body1" gutterBottom>Don't have and account? <a href="/register">Register</a></Typography></div>
+            <div style={{display:"flex",justifyContent:"start", marginTop:"30px", marginLeft:"30px", marginBottom:"20px"}}> 
+            <Typography variant="body1" gutterBottom>Already a member? <a href="/login">Login</a></Typography>
+            </div>
         </Card>
         </div>
     </div>
-    )
 }
 
-export default Login;
+export default Register;
